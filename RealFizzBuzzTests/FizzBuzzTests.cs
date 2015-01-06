@@ -19,5 +19,20 @@ namespace RealFizzBuzzTests
 
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData(1, "1")]
+        [InlineData(3, "lucky")]
+        [InlineData(5, "buzz")]
+        [InlineData(13, "lucky")]
+        [InlineData(15, "fizzbuzz")]
+        public void ShouldOverrideMultiplesOf3WithLucky(int number, string expected)
+        {
+            var fizzbuzz = new LuckyFizzBuzzDecorator(new FizzBuzz());
+
+            var result = fizzbuzz.Translate(number);
+
+            Assert.Equal(expected, result);
+        }
     }
 }

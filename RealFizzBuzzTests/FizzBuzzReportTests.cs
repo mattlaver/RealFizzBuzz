@@ -15,6 +15,18 @@ namespace RealFizzBuzzTests
             var result = fizzBuzzOutput.PrintRange(1, 20);
 
             Assert.Equal(expected, result);
-        } 
+        }
+
+        [Fact]
+        public void ShouldOutputTranslatedLuckyNumbersWithDelimiter()
+        {
+            const string expected = "1 2 lucky 4 buzz fizz 7 8 fizz buzz 11 fizz lucky 14 fizzbuzz 16 17 fizz 19 buzz";
+            var fizzbuzz = new LuckyFizzBuzzDecorator(new FizzBuzz());
+            var fizzBuzzReport = new FizzBuzzReport(fizzbuzz);
+
+            var result = fizzBuzzReport.PrintRange(1, 20);
+
+            Assert.Equal(expected, result);
+        }
     }
 }
