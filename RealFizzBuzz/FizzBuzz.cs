@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace RealFizzBuzz
 {
@@ -46,6 +47,48 @@ namespace RealFizzBuzz
         public override string Translate(int number)
         {
             return number.ToString(CultureInfo.InvariantCulture).Contains("3") ? "lucky" : FizzBuzz.Translate(number);
+        }
+    }
+
+    public class FizzBuzzStatsDecorator : FizzBuzzBase
+    {
+        private readonly Dictionary<string, int> _stats = new Dictionary<string, int>();
+
+        public FizzBuzzStatsDecorator(IFizzBuzz fizzBuzz)
+            : base(fizzBuzz)
+        {
+        }
+
+        private void UpdateStats(string value)
+        {
+            var statResult = value;
+
+            int tempInt;
+            if (int.TryParse(value, out tempInt))
+            {
+                statResult = "integer";
+            }
+
+            if (_stats.ContainsKey(statResult))
+            {
+                _stats[statResult]++;
+            }
+            else _stats.Add(statResult, 1);
+
+        }
+
+        public override string Translate(int number)
+        {
+            var result = FizzBuzz.Translate(number);
+            UpdateStats(result);
+            return result;
+        }
+
+        public int Stats(string value)
+        {
+            int stat;
+            _stats.TryGetValue(value, out stat);
+            return stat;
         }
     }
 }
